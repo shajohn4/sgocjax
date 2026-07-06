@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>St Gregorios Orthodox Church</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a96e;--gold-light:#e8d5a8;--deep:#2a1f0e;
+  --cream:#fdf8f0;--soft:#f5ede0;--text:#3a2e1e;--muted:#7a6a55;
+  --white:#ffffff;
+}
+body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--text);line-height:1.7;scroll-behavior:smooth}
+h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:500}
+
+/* NAV */
+nav{background:rgba(253,248,240,0.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--gold-light);padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
+.nav-brand{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--deep)}
+.nav-links{display:flex;gap:20px;flex-wrap:wrap}
+.nav-links a{font-size:12px;color:var(--muted);text-decoration:none;letter-spacing:0.5px}
+.nav-links a:hover{color:var(--deep)}
+
+/* HERO SLIDESHOW */
+.hero{position:relative;height:420px;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity 2s ease;display:flex;align-items:center;justify-content:center;font-size:100px}
+.slide.active{opacity:1}
+/* Placeholder slides using CSS gradients + symbols — replace with real images */
+.slide-1{background:linear-gradient(160deg,#1a120a 0%,#3a2510 60%,#1a120a 100%)}
+.slide-2{background:linear-gradient(160deg,#0e1a2a 0%,#1e3050 60%,#0e1a2a 100%)}
+.slide-3{background:linear-gradient(160deg,#1a0e0e 0%,#3a1010 60%,#1a0e0e 100%)}
+.slide-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.45)}
+.hero-content{position:relative;z-index:2;color:#fdf8f0}
+.hero-symbol{font-size:40px;color:var(--gold);margin-bottom:16px;display:block}
+.hero h1{font-size:32px;letter-spacing:0.5px;margin-bottom:6px}
+.hero-tagline{font-size:12px;color:var(--gold-light);letter-spacing:2.5px;text-transform:uppercase}
+.hero-quote{font-family:'Cormorant Garamond',serif;font-size:16px;color:rgba(253,248,240,0.85);font-style:italic;max-width:520px;margin:14px auto 4px;line-height:1.7}
+.hero-reference{font-size:11px;color:var(--gold);letter-spacing:1.5px;margin-top:4px}
+.hero-divider{width:36px;height:1px;background:var(--gold);margin:16px auto}
+.slide-dots{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:3}
+.dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.4);cursor:pointer;transition:background 0.3s}
+.dot.active{background:var(--gold)}
+
+/* SECTIONS */
+.section{padding:52px 32px;max-width:780px;margin:0 auto}
+.section-alt{background:var(--soft)}
+.section-alt .section{margin:0 auto}
+.section-alt-wrap{padding:52px 32px}
+.section-label{font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:2.5px;margin-bottom:6px}
+.section-title{font-size:26px;color:var(--deep);margin-bottom:16px}
+.section-rule{width:30px;height:1px;background:var(--gold-light);margin-bottom:24px}
+
+/* ABOUT */
+.about-text{font-size:15px;color:var(--muted);line-height:1.9}
+
+/* TIMINGS */
+.timings-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.timing-card{background:var(--white);border:1px solid var(--gold-light);border-radius:10px;padding:16px 18px}
+.timing-day{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--deep);margin-bottom:2px}
+.timing-time{font-size:13px;color:var(--muted)}
+.timing-service{font-size:11px;color:var(--gold);margin-top:2px;letter-spacing:0.4px}
+
+/* PRIEST MESSAGES */
+.messages-list{display:flex;flex-direction:column;gap:12px}
+.msg-card{background:var(--white);border:1px solid var(--gold-light);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:16px 20px}
+.msg-date{font-size:10px;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+.msg-text{font-size:14px;color:var(--text);line-height:1.8}
+.msg-from{font-size:11px;color:var(--muted);margin-top:6px;font-style:italic}
+
+/* FAMILY DIRECTORY */
+.family-search{width:100%;padding:9px 14px;border:1px solid var(--gold-light);border-radius:8px;background:var(--white);font-size:14px;color:var(--text);font-family:'Inter',sans-serif;margin-bottom:20px;outline:none}
+.family-search:focus{border-color:var(--gold)}
+.family-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.family-card{background:var(--white);border:1px solid var(--gold-light);border-radius:10px;padding:16px;transition:box-shadow 0.2s}
+.family-card:hover{box-shadow:0 2px 12px rgba(200,169,110,0.15)}
+.family-name{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--deep);margin-bottom:10px;border-bottom:1px solid var(--gold-light);padding-bottom:6px}
+.member-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.member-avatar{width:32px;height:32px;border-radius:50%;background:var(--gold-light);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--deep);font-weight:500;flex-shrink:0;overflow:hidden}
+.member-avatar img{width:100%;height:100%;object-fit:cover}
+.member-info{flex:1}
+.member-name{font-size:13px;color:var(--text);font-weight:500}
+.member-bday{font-size:11px;color:var(--muted)}
+.no-photo-badge{font-size:10px;color:var(--muted);font-style:italic}
+
+/* CONTACTS */
+.lock-screen{background:var(--white);border:1px solid var(--gold-light);border-radius:12px;padding:40px 32px;text-align:center;max-width:360px;margin:0 auto}
+.lock-icon{font-size:32px;margin-bottom:12px}
+.lock-title{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--deep);margin-bottom:8px}
+.lock-sub{font-size:13px;color:var(--muted);margin-bottom:20px}
+.pw-input{width:100%;padding:9px 14px;border:1px solid var(--gold-light);border-radius:8px;font-size:14px;font-family:'Inter',sans-serif;text-align:center;letter-spacing:3px;outline:none;margin-bottom:10px}
+.pw-input:focus{border-color:var(--gold)}
+.pw-btn{background:var(--deep);color:var(--gold-light);border:none;padding:10px 28px;border-radius:8px;font-size:13px;cursor:pointer;letter-spacing:0.5px;width:100%}
+.pw-btn:hover{background:#3a2e1e}
+.pw-error{font-size:12px;color:#c0392b;margin-top:6px}
+
+.contacts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.contact-card{background:var(--white);border:1px solid var(--gold-light);border-radius:10px;padding:14px 16px}
+.contact-role{font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:2px}
+.contact-name{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--deep);margin-bottom:4px}
+.contact-phone{font-size:13px;color:var(--muted)}
+.contact-phone a{color:var(--muted);text-decoration:none}
+.contact-phone a:hover{color:var(--deep)}
+.logout-btn{font-size:12px;color:var(--muted);background:none;border:1px solid var(--gold-light);padding:5px 14px;border-radius:6px;cursor:pointer;margin-bottom:16px}
+.logout-btn:hover{color:var(--deep)}
+
+/* LOCATION */
+.location-card{background:var(--white);border:1px solid var(--gold-light);border-radius:12px;overflow:hidden}
+.location-map-placeholder{background:linear-gradient(135deg,#e0ece0,#c8dcc8);height:140px;display:flex;align-items:center;justify-content:center;font-size:40px;color:#4a7a4a}
+.location-body{padding:18px 22px}
+.loc-row{display:flex;gap:10px;font-size:13px;color:var(--muted);margin-bottom:8px}
+.loc-row strong{color:var(--deep);min-width:72px}
+
+/* UPDATES */
+.update-card{background:var(--white);border:1px solid var(--gold-light);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:16px 20px;margin-bottom:10px}
+.update-date{font-size:10px;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px}
+.update-title{font-size:15px;font-weight:500;color:var(--deep);margin-bottom:3px}
+.update-body{font-size:13px;color:var(--muted);line-height:1.75}
+
+/* FOOTER */
+footer{background:var(--deep);color:var(--gold-light);text-align:center;padding:24px 32px;font-size:12px;letter-spacing:0.4px}
+footer p{opacity:0.7;margin-top:4px}
+
+@media(max-width:560px){
+  .timings-grid,.family-grid,.contacts-grid{grid-template-columns:1fr}
+  .hero{height:320px}
+  .hero h1{font-size:22px}
+  nav{padding:12px 16px}
+  .section{padding:36px 16px}
+  .section-alt-wrap{padding:36px 16px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-brand">✦ St Gregorios Orthodox Church</span>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#timings">Services</a>
+    <a href="#messages">Messages</a>
+    <a href="#families">Families</a>
+    <a href="#contacts">Contacts</a>
+    <a href="#location">Location</a>
+  </div>
+</nav>
+
+<!-- HERO SLIDESHOW -->
+<div class="hero" id="hero">
+  <!-- Replace div backgrounds with: style="background:url('your-image.jpg') center/cover" -->
+  <div class="slide slide-1 active"><div class="slide-overlay"></div><span style="position:relative;z-index:1;opacity:0.3;color:#c8a96e">✝</span></div>
+  <div class="slide slide-2"><div class="slide-overlay"></div><span style="position:relative;z-index:1;opacity:0.3;color:#c8a96e">☩</span></div>
+  <div class="slide slide-3"><div class="slide-overlay"></div><span style="position:relative;z-index:1;opacity:0.3;color:#c8a96e">✦</span></div>
+  <div class="hero-content">
+    <span class="hero-symbol">✦</span>
+    <h1>St Gregorios Orthodox Church</h1>
+    <div class="hero-divider"></div>
+    <p class="hero-tagline">Rooted in Faith · Grounded in Grace</p>
+    <p class="hero-quote" id="dailyQuote"></p>
+    <p class="hero-reference" id="dailyReference"></p>
+  </div>
+  <div class="slide-dots">
+    <div class="dot active" onclick="goSlide(0)"></div>
+    <div class="dot" onclick="goSlide(1)"></div>
+    <div class="dot" onclick="goSlide(2)"></div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="section" id="about">
+  <div class="section-label">Who We Are</div>
+  <h2 class="section-title">About Our Parish</h2>
+  <div class="section-rule"></div>
+  <p class="about-text">
+    St Gregorios Orthodox Church is a vibrant parish rooted in the ancient traditions of the Malankara Orthodox Syrian Church. Named after St Gregorios of Parumala — the first canonized saint from India — our community gathers in worship, fellowship, and service to God and neighbor.<br><br>
+    We welcome all who seek a place of prayer, peace, and spiritual nourishment. Our parish is a home for families drawn to the richness of Orthodox Christian faith and the depth of its liturgy, handed down through centuries of devotion.
+  </p>
+</div>
+
+<!-- TIMINGS -->
+<div class="section-alt" id="timings">
+  <div class="section-alt-wrap" style="max-width:780px;margin:0 auto">
+    <div class="section-label">Worship Schedule</div>
+    <h2 class="section-title">Church Timings</h2>
+    <div class="section-rule"></div>
+    <div class="timings-grid" id="timingsGrid">
+      <p style="color:var(--muted);font-size:14px">Loading timings...</p>
+    </div>
+  </div>
+</div>
+
+<!-- PRIEST MESSAGES -->
+<div class="section" id="messages">
+  <div class="section-label">From the Altar</div>
+  <h2 class="section-title">Priest's Messages</h2>
+  <div class="section-rule"></div>
+  <!-- ADMIN: Add new messages at the top. Copy a msg-card block, update date and text. -->
+  <div class="messages-list" id="messagesList">
+    <div class="msg-card">
+      <div class="msg-date">June 18, 2026</div>
+      <div class="msg-text">This Sunday we will have our Holy Qurbana starting 8:30 AM EST. Post Holy Qurbana we will have our general body meeting. All members are requested to attend.</div>
+      <div class="msg-from">— Fr. Thomas Kuriakose</div>
+    </div>
+    <div class="msg-card">
+      <div class="msg-date">June 10, 2026</div>
+      <div class="msg-text">Please remember our departed members and their families in your prayers this week. A memorial prayer service will be held after Sunday Qurbana.</div>
+      <div class="msg-from">— Fr. Thomas Kuriakose</div>
+    </div>
+    <div class="msg-card">
+      <div class="msg-date">June 1, 2026</div>
+      <div class="msg-text">We are blessed to welcome three new families into our parish this month. May the Lord bless them and may they find a true spiritual home among us.</div>
+      <div class="msg-from">— Fr. Thomas Kuriakose</div>
+    </div>
+  </div>
+</div>
+
+<!-- FAMILY DIRECTORY -->
+<div class="section-alt" id="families">
+  <div class="section-alt-wrap" style="max-width:780px;margin:0 auto">
+    <div class="section-label">Our Community</div>
+    <h2 class="section-title">Parish Families</h2>
+    <div class="section-rule"></div>
+    <input class="family-search" type="text" placeholder="Search by family or member name…" id="familySearch" oninput="filterFamilies()">
+    <div class="family-grid" id="familyGrid"></div>
+    <p style="font-size:12px;color:var(--muted);margin-top:16px;text-align:center">Families may opt out of this directory. Contact the parish secretary to update your listing.</p>
+  </div>
+</div>
+
+<!-- CONTACT DIRECTORY -->
+<div class="section" id="contacts">
+  <div class="section-label">Parish Contacts</div>
+  <h2 class="section-title">Contact Directory</h2>
+  <div class="section-rule"></div>
+  <div id="contactLock">
+    <div class="lock-screen">
+      <div class="lock-icon">🔒</div>
+      <div class="lock-title">Members Only</div>
+      <div class="lock-sub">This directory is available to parish members. Please enter the access password.</div>
+      <input class="pw-input" type="password" id="pwInput" placeholder="••••••" maxlength="20">
+      <button class="pw-btn" onclick="checkPassword()">View Directory</button>
+      <div class="pw-error" id="pwError" style="display:none">Incorrect password. Please try again.</div>
+    </div>
+  </div>
+  <div id="contactContent" style="display:none">
+    <button class="logout-btn" onclick="lockContacts()">🔒 Lock directory</button>
+    <div class="contacts-grid" id="contactsGrid"></div>
+  </div>
+</div>
+
+<!-- LOCATION -->
+<div class="section-alt" id="location">
+  <div class="section-alt-wrap" style="max-width:780px;margin:0 auto">
+    <div class="section-label">Find Us</div>
+    <h2 class="section-title">Our Location</h2>
+    <div class="section-rule"></div>
+    <div class="location-card">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3444.1257683250283!2d-81.56321912352189!3d30.31894027478666!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88e5b45f4c72ae43%3A0xf9ef57df75763a71!2s220%20Mill%20Creek%20Rd%2C%20Jacksonville%2C%20FL%2032211!5e0!3m2!1sen!2sus!4v1783358135983!5m2!1sen!2sus" width="100%" height="220" style="border:0;display:block;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      <div class="location-body">
+        <div class="loc-row"><strong>Address</strong><span>220 Mill Creek Road, Jacksonville, FL 32211</span></div>
+        <div class="loc-row"><strong>Phone</strong><span>(904) 555-0100</span></div>
+        <div class="loc-row"><strong>Email</strong><span>info@stgregoriosjax.org</span></div>
+        <div class="loc-row"><strong>Parking</strong><span>Free parking in main lot and adjacent street</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LATEST UPDATES -->
+<footer>
+  <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--gold);margin-bottom:6px">✦ St Gregorios Orthodox Church</div>
+  <p>Jacksonville, FL · © 2026 · All are welcome</p>
+</footer>
+
+<script>
+// =============================================
+// ADMIN CONFIGURATION — ONLY EDIT THIS SECTION
+// =============================================
+var SHEET_URL = "https://script.google.com/macros/s/AKfycbzSKXozv1hjw_tKa7eYZ1HJtwQaFNF5LNnNEwMmAh0nUvBoqcSyngvKTt1uvgDSXC6f/exec";
+var CONTACT_PASSWORD = "church2026";
+var ADMIN_PASSWORD = "admin2026";
+// =============================================
+// END OF ADMIN SECTION — DO NOT EDIT BELOW
+// =============================================
+
+// SLIDESHOW
+var currentSlide = 0;
+var slides = document.querySelectorAll('.slide');
+var dots = document.querySelectorAll('.dot');
+function goSlide(n) {
+  slides[currentSlide].classList.remove('active');
+  dots[currentSlide].classList.remove('active');
+  currentSlide = n;
+  slides[currentSlide].classList.add('active');
+  dots[currentSlide].classList.add('active');
+}
+function nextSlide() { goSlide((currentSlide + 1) % slides.length); }
+setInterval(nextSlide, 8000);
+
+// FETCH FROM GOOGLE SHEET
+function fetchTab(tab, callback) {
+  fetch(SHEET_URL + "?tab=" + tab)
+    .then(function(r){ return r.json(); })
+    .then(callback)
+    .catch(function(err){ console.warn("Could not load tab: " + tab, err); });
+}
+
+// FORMAT DATE — handles ISO timestamp, MM/DD/YYYY, plain text
+function formatDate(val) {
+  if (!val) return '';
+  var s = String(val).trim();
+  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  if (s.indexOf('T') !== -1) {
+    var d = new Date(s);
+    if (!isNaN(d.getTime())) return months[d.getUTCMonth()] + ' ' + d.getUTCDate();
+  }
+  if (s.indexOf('/') !== -1) {
+    var parts = s.split('/');
+    if (parts.length >= 3) {
+      var mi = parseInt(parts[0],10)-1;
+      var dy = parseInt(parts[1],10);
+      var yr = parts[2].split(' ')[0];
+      if (mi>=0 && mi<12) return months[mi] + ' ' + dy + ', ' + yr;
+    }
+  }
+  return s;
+}
+
+// FORMAT BIRTHDAY — show only month and day, no year
+function formatBirthday(val) {
+  if (!val) return '';
+  var s = String(val).trim();
+  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  if (s.indexOf('T') !== -1) {
+    var d = new Date(s);
+    if (!isNaN(d.getTime())) return months[d.getUTCMonth()] + ' ' + d.getUTCDate();
+  }
+  if (s.indexOf('/') !== -1) {
+    var parts = s.split('/');
+    if (parts.length >= 2) {
+      var mi = parseInt(parts[0],10)-1;
+      var dy = parseInt(parts[1],10);
+      if (mi>=0 && mi<12) return months[mi] + ' ' + dy;
+    }
+  }
+  return s;
+}
+
+function isVisible(r) {
+  return String(r.visible || '').toLowerCase().trim() === 'yes';
+}
+
+function initials(name) {
+  return String(name).split(' ').map(function(w){ return w[0] || ''; }).slice(0,2).join('');
+}
+
+// DAILY QUOTE — picks one per day consistently
+fetchTab('Quotes', function(rows) {
+  var visible = rows.filter(isVisible);
+  if (!visible.length) return;
+  // Use today's date as seed so same quote shows all day
+  var today = new Date();
+  var seed = today.getFullYear() * 10000 + (today.getMonth()+1) * 100 + today.getDate();
+  var idx = seed % visible.length;
+  var row = visible[idx];
+  var quoteEl = document.getElementById('dailyQuote');
+  var refEl = document.getElementById('dailyReference');
+  if (quoteEl) quoteEl.textContent = '\u201c' + row.quotes + '\u201d';
+  if (refEl && row.reference) refEl.textContent = '\u2014 ' + row.reference;
+});
+
+// TIMINGS
+fetchTab('Timings', function(rows) {
+  var grid = document.getElementById('timingsGrid');
+  grid.innerHTML = '';
+  rows.filter(isVisible).forEach(function(r) {
+    grid.innerHTML += '<div class="timing-card">'
+      + '<div class="timing-day">' + r.day + '</div>'
+      + '<div class="timing-time">' + r.time + '</div>'
+      + '<div class="timing-service">' + r.service + '</div>'
+      + (r.notes ? '<div style="font-size:11px;color:var(--muted);margin-top:4px">' + r.notes + '</div>' : '')
+      + '</div>';
+  });
+  if (!grid.innerHTML) grid.innerHTML = '<p style="color:var(--muted);font-size:14px">No timings available.</p>';
+});
+
+// MESSAGES
+fetchTab('Messages', function(rows) {
+  var list = document.getElementById('messagesList');
+  list.innerHTML = '';
+  rows.filter(isVisible).forEach(function(r) {
+    list.innerHTML += '<div class="msg-card">'
+      + '<div class="msg-date">' + formatDate(r.date) + '</div>'
+      + '<div class="msg-text">' + r.message + '</div>'
+      + '</div>';
+  });
+  if (!list.innerHTML) list.innerHTML = '<p style="color:var(--muted);font-size:14px">No messages at this time.</p>';
+});
+
+// FAMILIES
+var allFamilyRows = [];
+fetchTab('Families', function(rows) {
+  allFamilyRows = rows;
+  renderFamilies('');
+});
+
+function renderFamilies(filter) {
+  var grid = document.getElementById('familyGrid');
+  grid.innerHTML = '';
+  var q = filter ? filter.toLowerCase() : '';
+  var familyMap = {};
+  allFamilyRows.forEach(function(r) {
+    if (String(r.status||'active').toLowerCase().trim() !== 'active') return;
+    if (String(r.directory_optout||'').toLowerCase().trim() === 'yes') return;
+    var fn = r.family_name;
+    if (!fn) return;
+    if (!familyMap[fn]) familyMap[fn] = [];
+    familyMap[fn].push(r);
+  });
+  var families = Object.keys(familyMap);
+  if (q) {
+    families = families.filter(function(fn) {
+      if (fn.toLowerCase().includes(q)) return true;
+      return familyMap[fn].some(function(m){ return String(m.member_name||''). toLowerCase().includes(q); });
+    });
+  }
+  if (families.length === 0) {
+    grid.innerHTML = '<p style="color:var(--muted);font-size:14px">No families found.</p>';
+    return;
+  }
+  families.forEach(function(fn) {
+    var card = document.createElement('div');
+    card.className = 'family-card';
+    var html = '<div class="family-name">' + fn + '</div>';
+    familyMap[fn].forEach(function(m) {
+      var photoOptOut = String(m.photo_optout||'').toLowerCase().trim() === 'yes';
+      var photoFile = String(m.photo_file||'').trim();
+      var avatarHtml = (!photoOptOut && photoFile)
+        ? '<img src="' + photoFile + '" alt="' + m.member_name + '"">'
+        : '';
+      var bday = formatBirthday(m.birthday);
+      html += '<div class="member-row">'
+        + '<div class="member-avatar">' + avatarHtml + '</div>'
+        + '<div class="member-info">'
+        + '<div class="member-name">' + m.member_name + '</div>'
+        + (bday ? '<div class="member-bday">🎂 ' + bday + '</div>' : '')
+        + '</div></div>';
+    });
+    card.innerHTML = html;
+    grid.appendChild(card);
+  });
+}
+
+function filterFamilies() {
+  renderFamilies(document.getElementById('familySearch').value);
+}
+
+// CONTACTS
+function renderContacts() {
+  var grid = document.getElementById('contactsGrid');
+  grid.innerHTML = '<p style="color:var(--muted);font-size:13px">Loading...</p>';
+  fetchTab('Contacts', function(rows) {
+    grid.innerHTML = '';
+    rows.filter(isVisible).forEach(function(c) {
+      var card = document.createElement('div');
+      card.className = 'contact-card';
+      card.innerHTML = '<div class="contact-role">' + c.role + '</div>'
+        + '<div class="contact-name">' + c.name + '</div>'
+        + '<div class="contact-phone"><a href="tel:' + String(c.phone).replace(/\D/g,'') + '">' + c.phone + '</a></div>'
+        + (c.email ? '<div class="contact-phone"><a href="mailto:' + c.email + '">' + c.email + '</a></div>' : '');
+      grid.appendChild(card);
+    });
+    if (!grid.innerHTML) grid.innerHTML = '<p style="color:var(--muted);font-size:14px">No contacts available.</p>';
+  });
+}
+
+// PASSWORD CHECK
+function checkPassword() {
+  var val = document.getElementById('pwInput').value;
+  if (val === CONTACT_PASSWORD || val === ADMIN_PASSWORD) {
+    document.getElementById('contactLock').style.display = 'none';
+    document.getElementById('contactContent').style.display = 'block';
+    renderContacts();
+    if (val === ADMIN_PASSWORD) loadMeetingNotes();
+  } else {
+    document.getElementById('pwError').style.display = 'block';
+    document.getElementById('pwInput').value = '';
+  }
+}
+
+document.getElementById('pwInput').addEventListener('keydown', function(e){
+  if (e.key === 'Enter') checkPassword();
+});
+
+function lockContacts() {
+  document.getElementById('contactLock').style.display = 'block';
+  document.getElementById('contactContent').style.display = 'none';
+  document.getElementById('pwInput').value = '';
+  document.getElementById('pwError').style.display = 'none';
+}
+
+// MEETING NOTES (admin only)
+function loadMeetingNotes() {
+  var section = document.getElementById('meetingSection');
+  if (section) section.style.display = 'block';
+  fetchTab('MeetingNotes', function(rows) {
+    var list = document.getElementById('meetingList');
+    if (!list) return;
+    list.innerHTML = '';
+    rows.filter(isVisible).forEach(function(r) {
+      list.innerHTML += '<div class="msg-card">'
+        + '<div class="msg-date">' + formatDate(r.date) + ' · ' + (r.meeting_type||'') + '</div>'
+        + '<div class="msg-text">'
+        + (r.agenda ? '<strong>Agenda:</strong> ' + r.agenda + '<br><br>' : '')
+        + (r.notes ? '<strong>Notes:</strong> ' + r.notes : '')
+        + '</div></div>';
+    });
+    if (!list.innerHTML) list.innerHTML = '<p style="color:var(--muted);font-size:14px">No meeting notes available.</p>';
+  });
+}
+</script>
+</body>
+</html>
