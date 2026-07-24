@@ -221,9 +221,22 @@ footer p{opacity:0.7;margin-top:4px}
     <div class="section-label">Our Community</div>
     <h2 class="section-title">Parish Families</h2>
     <div class="section-rule"></div>
-    <input class="family-search" type="text" placeholder="Search by family or member name…" id="familySearch" oninput="filterFamilies()">
-    <div class="family-grid" id="familyGrid"></div>
-    <p style="font-size:12px;color:var(--muted);margin-top:16px;text-align:center">Families may opt out of this directory. Contact the parish secretary to update your listing.</p>
+    <div id="familyLock">
+      <div class="lock-screen">
+        <div class="lock-icon">🔒</div>
+        <div class="lock-title">Members Only</div>
+        <div class="lock-sub">The parish family directory is available to church members. Please enter the access password.</div>
+        <input class="pw-input" type="password" id="familyPwInput" placeholder="••••••" maxlength="20">
+        <button class="pw-btn" onclick="checkFamilyPassword()">View Directory</button>
+        <div class="pw-error" id="familyPwError" style="display:none">Incorrect password. Please try again.</div>
+      </div>
+    </div>
+    <div id="familyContent" style="display:none">
+      <button class="logout-btn" onclick="lockFamilies()">🔒 Lock directory</button>
+      <input class="family-search" type="text" placeholder="Search by family or member name…" id="familySearch" oninput="filterFamilies()">
+      <div class="family-grid" id="familyGrid"></div>
+      <p style="font-size:12px;color:var(--muted);margin-top:16px;text-align:center">Families may opt out of this directory. Contact the parish secretary to update your listing.</p>
+    </div>
   </div>
 </div>
 
@@ -401,7 +414,7 @@ fetchTab('Messages', function(rows) {
 var allFamilyRows = [];
 fetchTab('Families', function(rows) {
   allFamilyRows = rows;
-  renderFamilies('');
+  // Don't render until password is entered
 });
 
 function renderFamilies(filter) {
@@ -437,7 +450,7 @@ function renderFamilies(filter) {
       var photoFile = String(m.photo_file||'').trim();
       var avatarHtml = (!photoOptOut && photoFile)
         ? '<img src="' + photoFile + '" alt="' + m.member_name + '"">'
-        : '';
+        : initials(m.member_name);
       var bday = formatBirthday(m.birthday);
       html += '<div class="member-row">'
         + '<div class="member-avatar">' + avatarHtml + '</div>'
@@ -453,6 +466,30 @@ function renderFamilies(filter) {
 
 function filterFamilies() {
   renderFamilies(document.getElementById('familySearch').value);
+}
+
+// FAMILY PASSWORD
+function checkFamilyPassword() {
+  var val = document.getElementById('familyPwInput').value;
+  if (val === CONTACT_PASSWORD || val === ADMIN_PASSWORD) {
+    document.getElementById('familyLock').style.display = 'none';
+    document.getElementById('familyContent').style.display = 'block';
+    renderFamilies('');
+  } else {
+    document.getElementById('familyPwError').style.display = 'block';
+    document.getElementById('familyPwInput').value = '';
+  }
+}
+
+document.getElementById('familyPwInput').addEventListener('keydown', function(e){
+  if (e.key === 'Enter') checkFamilyPassword();
+});
+
+function lockFamilies() {
+  document.getElementById('familyLock').style.display = 'block';
+  document.getElementById('familyContent').style.display = 'none';
+  document.getElementById('familyPwInput').value = '';
+  document.getElementById('familyPwError').style.display = 'none';
 }
 
 // CONTACTS
